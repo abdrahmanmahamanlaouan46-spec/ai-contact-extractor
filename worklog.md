@@ -105,3 +105,24 @@ Stage Summary:
 - Line-by-line processing prevents cross-line false matches
 - Comprehensive validation filters dates, IPs, version numbers
 - Verified: 34 phone numbers extracted, 0 false positives in test
+
+---
+Task ID: 6
+Agent: Main Agent
+Task: Major rewrite of phone extraction — full extension + African number support
+
+Work Log:
+- Completely rewrote `/src/utils/extractor.ts` with new multi-pattern strategy
+- 6 distinct regex patterns: P_INTERNATIONAL, P_NA_PAREN, P_NA_DASH, P_LOCAL_ZERO, P_GROUPED, P_PLAIN
+- Extension suffix support: ext, ext., x, extension, poste, post, p, # with 1-8 digit codes
+- Complete African country code set (Set<string>) for lenient validation
+- parseExtension() to separate base from extension in display/export
+- Updated `/src/components/results-card.tsx` with visual extension badges (amber color + Hash icon)
+- Count of numbers with extensions shown in card header
+- Tested: 24/24 phones (including all extensions and African formats), 5/5 emails
+
+Stage Summary:
+- Extensions fully captured: (212) 555-9999 ext 1234, 800-123-4567 x567, poste 34, #456
+- All 54 African country codes (+20 through +269) with lenient validation
+- Local 0-prefix format: 077 123 45 67, 06 12 34 56 78
+- Visual extension badges in results UI with amber styling

@@ -1,6 +1,7 @@
 /**
  * Results display component showing extracted emails and phone numbers.
  * Features animated counts, copy buttons, scrollable lists, and empty states.
+ * Displays phone extensions with a visual badge.
  */
 
 "use client";
@@ -14,6 +15,7 @@ import {
   Download,
   Inbox,
   SearchX,
+  Hash,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -87,6 +89,18 @@ function CopyButton({
   );
 }
 
+/**
+ * Parses a phone number string to check if it contains an extension.
+ * Returns the base number and the extension if present.
+ */
+function parsePhoneExt(phone: string): { base: string; ext: string | null } {
+  const match = phone.match(/^(.+?)\s+(?:ext|ext\.|x|extension|poste|post|p|#)\.?\s*(\d{1,8})\s*$/i);
+  if (match) {
+    return { base: match[1].trim(), ext: match[2] };
+  }
+  return { base: phone.trim(), ext: null };
+}
+
 /** Single contact result card for either emails or phones */
 function ContactResultCard({
   type,
@@ -116,6 +130,11 @@ function ContactResultCard({
       : "hover:border-cyan-500/30";
   const emptyIcon = <Inbox className="h-8 w-8" />;
 
+  // Count how many phones have extensions
+  const extCount = type === "phone"
+    ? items.filter((item) => parsePhoneExt(item).ext !== null).length
+    : 0;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -137,6 +156,11 @@ function ContactResultCard({
               {items.length === 1
                 ? "1 found"
                 : `${items.length} found`}
+              {extCount > 0 && (
+                <span className="ml-1 text-amber-400">
+                  ({extCount} with ext)
+                </span>
+              )}
             </p>
           </div>
         </div>
@@ -167,35 +191,53 @@ function ContactResultCard({
           <ScrollArea className="max-h-64 sm:max-h-80">
             <div className="space-y-1.5 pr-3">
               <AnimatePresence mode="popLayout">
-                {items.map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    transition={{ duration: 0.2, delay: index * 0.03 }}
-                    className={`group flex items-center justify-between rounded-lg border border-border/30 px-3 py-2 text-sm transition-colors ${hoverBorder} hover:bg-muted/50`}
-                  >
-                    <div className="flex items-center gap-2.5 overflow-hidden">
-                      <span className="text-xs font-mono text-muted-foreground">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="truncate font-mono">{item}</span>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="ml-2 h-7 w-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
-                      onClick={() => {
-                        navigator.clipboard.writeText(item);
-                        onToast(`Copied: ${item}`);
-                      }}
-                      aria-label={`Copy ${item}`}
+                {items.map((item, index) => {
+                  const parsed = type === "phone" ? parsePhoneExt(item) : null;
+                  return (
+                    <motion.div
+                      key={item}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 10 }}
+                      transition={{ duration: 0.2, delay: index * 0.03 }}
+                      className={`group flex items-center justify-between rounded-lg border border-border/30 px-3 py-2 text-sm transition-colors ${hoverBorder} hover:bg-muted/50`}
                     >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                  </motion.div>
-                ))}
+                      <div className="flex items-center gap-2.5 overflow-hidden">
+                        <span className="text-xs font-mono text-muted-foreground">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        {parsed && parsed.ext ? (
+                          /* Phone WITH extension — show base + ext badge */
+                          <span className="truncate font-mono flex items-center gap-1.5">
+                            <span>{parsed.base}</span>
+                            <Badge
+                              variant="outline"
+                              className="shrink-0 rounded-md border-amber-500/30 bg-amber-500/10 px-1.5 py-0 text-[10px] text-amber-400"
+                            >
+                              <Hash className="mr-0.5 h-2.5 w-2.5" />
+                              ext {parsed.ext}
+                            </Badge>
+                          </span>
+                        ) : (
+                          /* Email or phone WITHOUT extension */
+                          <span className="truncate font-mono">{item}</span>
+                        )}
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="ml-2 h-7 w-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                        onClick={() => {
+                          navigator.clipboard.writeText(item);
+                          onToast(`Copied: ${item}`);
+                        }}
+                        aria-label={`Copy ${item}`}
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
             </div>
           </ScrollArea>
