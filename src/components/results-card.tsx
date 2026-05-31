@@ -1,7 +1,7 @@
 /**
  * Results display component showing extracted emails and phone numbers.
  * Features animated counts, copy buttons, scrollable lists, and empty states.
- * Displays phone extensions with a visual badge.
+ * Colorful extension badges and vibrant card styling.
  */
 
 "use client";
@@ -115,19 +115,25 @@ function ContactResultCard({
 }) {
   const Icon = type === "email" ? Mail : Phone;
   const title = type === "email" ? "Emails" : "Phone Numbers";
+
+  // Different color schemes for email vs phone
   const gradientClass =
     type === "email"
       ? "from-emerald-500/20 to-teal-500/20"
-      : "from-cyan-500/20 to-blue-500/20";
-  const iconColor = type === "email" ? "text-emerald-500" : "text-cyan-500";
+      : "from-violet-500/20 to-cyan-500/20";
+  const iconColor = type === "email" ? "text-emerald-400" : "text-violet-400";
   const badgeColor =
     type === "email"
       ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-      : "bg-cyan-500/10 text-cyan-400 border-cyan-500/20";
+      : "bg-violet-500/10 text-violet-400 border-violet-500/20";
   const hoverBorder =
     type === "email"
       ? "hover:border-emerald-500/30"
-      : "hover:border-cyan-500/30";
+      : "hover:border-violet-500/30";
+  const accentGlow =
+    type === "email"
+      ? "from-emerald-500/6 via-teal-500/3 to-transparent"
+      : "from-violet-500/6 via-cyan-500/3 to-transparent";
   const emptyIcon = <Inbox className="h-8 w-8" />;
 
   // Count how many phones have extensions
@@ -142,11 +148,14 @@ function ContactResultCard({
       transition={{ duration: 0.4, delay: type === "email" ? 0.1 : 0.2 }}
       className="overflow-hidden rounded-2xl border border-border/50 bg-card/50 backdrop-blur-xl transition-colors"
     >
+      {/* Colorful top glow */}
+      <div className={`h-px bg-gradient-to-r ${type === "email" ? "from-emerald-500/50 via-teal-500/30 to-emerald-500/50" : "from-violet-500/50 via-cyan-500/30 to-violet-500/50"}`} />
+
       {/* Card header */}
       <div className="flex items-center justify-between border-b border-border/30 p-4 sm:p-5">
         <div className="flex items-center gap-3">
           <div
-            className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${gradientClass}`}
+            className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${gradientClass} ring-1 ${type === "email" ? "ring-emerald-500/20" : "ring-violet-500/20"}`}
           >
             <Icon className={`h-5 w-5 ${iconColor}`} />
           </div>
@@ -212,7 +221,7 @@ function ContactResultCard({
                             <span>{parsed.base}</span>
                             <Badge
                               variant="outline"
-                              className="shrink-0 rounded-md border-amber-500/30 bg-amber-500/10 px-1.5 py-0 text-[10px] text-amber-400"
+                              className="shrink-0 rounded-md border-amber-500/30 bg-gradient-to-r from-amber-500/15 to-orange-500/10 px-1.5 py-0 text-[10px] text-amber-400"
                             >
                               <Hash className="mr-0.5 h-2.5 w-2.5" />
                               ext {parsed.ext}
@@ -244,7 +253,7 @@ function ContactResultCard({
         ) : (
           /* Empty state */
           <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
-            <div className="mb-3 rounded-full bg-muted/50 p-3">
+            <div className="mb-3 rounded-full bg-gradient-to-b from-muted/80 to-muted/30 p-3">
               {emptyIcon}
             </div>
             <p className="text-sm font-medium">
@@ -341,8 +350,8 @@ export function ResultsCard({
           animate={{ opacity: 1, scale: 1 }}
           className="flex flex-col items-center justify-center rounded-2xl border border-border/50 bg-card/30 py-16 text-center backdrop-blur-xl"
         >
-          <div className="mb-4 rounded-full bg-muted/50 p-4">
-            <SearchX className="h-10 w-10 text-muted-foreground" />
+          <div className="mb-4 rounded-full bg-gradient-to-b from-rose-500/10 to-violet-500/10 p-4">
+            <SearchX className="h-10 w-10 text-rose-400" />
           </div>
           <h3 className="text-lg font-semibold">No Contacts Detected</h3>
           <p className="mt-2 max-w-sm text-sm text-muted-foreground">

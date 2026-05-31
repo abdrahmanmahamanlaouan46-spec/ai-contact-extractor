@@ -1,6 +1,6 @@
 /**
- * Main extractor card component containing the textarea input,
- * extract button, and character counter.
+ * Main extractor card component — vibrant and colorful.
+ * Textarea input, extract button, character counter.
  */
 
 "use client";
@@ -40,15 +40,15 @@ export function ExtractorCard({
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 p-6 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-8">
-        {/* Subtle gradient border glow */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-emerald-500/5 via-transparent to-transparent" />
+        {/* Colorful gradient border glow */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/8 via-violet-500/4 to-cyan-500/6" />
 
         <div className="relative z-10">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20">
-                <FileText className="h-5 w-5 text-emerald-500" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/25 to-teal-500/25 ring-1 ring-emerald-500/20">
+                <FileText className="h-5 w-5 text-emerald-400" />
               </div>
               <div>
                 <h2 className="text-lg font-semibold">Input Text</h2>
@@ -64,7 +64,7 @@ export function ExtractorCard({
                 <motion.span
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground"
+                  className="rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
                 >
                   {charCount.toLocaleString()} chars
                 </motion.span>
@@ -88,7 +88,7 @@ export function ExtractorCard({
             <Textarea
               value={text}
               onChange={(e) => onTextChange(e.target.value)}
-              placeholder="Paste text containing emails and phone numbers...&#10;&#10;Example: Contact us at hello@company.com or support@startup.io. Call us at +1 (415) 555-2671 or +44 20 7946 0958."
+              placeholder="Paste text containing emails and phone numbers...&#10;&#10;Example: Contact us at hello@company.com or support@startup.io. Call us at +221 77 123 45 67 or +1 (415) 555-2671 ext 123."
               className="min-h-[200px] resize-y rounded-xl border-border/50 bg-background/50 text-base leading-relaxed backdrop-blur-sm transition-all focus-visible:border-emerald-500/50 focus-visible:ring-emerald-500/20 sm:min-h-[240px] md:min-h-[280px]"
               disabled={isExtracting}
               aria-label="Text input for contact extraction"
@@ -98,8 +98,8 @@ export function ExtractorCard({
           {/* Action Bar */}
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Supports emails & international phone numbers
+              <div className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 animate-pulse" />
+              Supports emails, African numbers, extensions & international formats
             </div>
 
             <div className="flex items-center gap-3">
@@ -125,7 +125,7 @@ export function ExtractorCard({
               {/* Extract button */}
               <Button
                 size="lg"
-                className="group relative h-12 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-8 text-base font-semibold text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-emerald-500/40 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50 disabled:shadow-none"
+                className="group relative h-12 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 px-8 text-base font-semibold text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-emerald-500/40 hover:from-emerald-500 hover:via-teal-500 hover:to-cyan-500 disabled:opacity-50 disabled:shadow-none"
                 onClick={onExtract}
                 disabled={isDisabled || isExtracting}
               >
@@ -141,7 +141,7 @@ export function ExtractorCard({
                   </span>
                 )}
                 {/* Animated glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 opacity-0 transition-opacity group-hover:opacity-20" />
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 opacity-0 transition-opacity group-hover:opacity-20" />
               </Button>
             </div>
           </div>

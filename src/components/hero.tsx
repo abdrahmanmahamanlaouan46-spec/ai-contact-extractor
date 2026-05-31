@@ -1,21 +1,27 @@
 /**
  * Hero section component with animated gradient background and CTA.
- * Creates a striking first impression with motion effects.
+ * Vibrant, colorful, and visually striking first impression.
  */
 
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, Sparkles } from "lucide-react";
+import { ArrowDown, Sparkles, Mail, Phone, Globe, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
   return (
     <section className="relative flex min-h-[85vh] flex-col items-center justify-center px-4 pt-16 sm:min-h-[90vh]">
-      {/* Animated gradient overlay */}
+      {/* Animated gradient overlays */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/4 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/5 blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 h-[300px] w-[300px] rounded-full bg-gradient-to-tl from-emerald-600/10 to-transparent blur-[80px]" />
+        {/* Main gradient blob */}
+        <div className="absolute top-1/4 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-emerald-500/20 via-teal-400/15 to-cyan-400/10 blur-[130px]" />
+        {/* Violet accent */}
+        <div className="absolute top-1/3 right-1/4 h-[400px] w-[400px] rounded-full bg-gradient-to-bl from-violet-500/10 to-transparent blur-[100px]" />
+        {/* Amber accent bottom */}
+        <div className="absolute bottom-1/4 left-1/4 h-[300px] w-[300px] rounded-full bg-gradient-to-tr from-amber-400/8 to-transparent blur-[80px]" />
+        {/* Rose accent */}
+        <div className="absolute top-1/2 right-1/3 h-[250px] w-[250px] rounded-full bg-gradient-to-l from-rose-400/6 to-transparent blur-[90px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl text-center">
@@ -24,7 +30,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm text-emerald-400 backdrop-blur-sm"
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 px-4 py-1.5 text-sm text-emerald-400 backdrop-blur-sm"
         >
           <Sparkles className="h-3.5 w-3.5" />
           <span>AI-Powered Contact Extraction</span>
@@ -37,11 +43,11 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mb-6 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         >
-          <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text">
+          <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
             AI Contact
           </span>
           <br />
-          <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
             Extractor
           </span>
         </motion.h1>
@@ -78,7 +84,6 @@ export function Hero() {
               Start Extracting
               <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
             </span>
-            {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 opacity-0 transition-opacity group-hover:opacity-20" />
           </Button>
 
@@ -89,7 +94,7 @@ export function Hero() {
             asChild
           >
             <a
-              href="https://github.com"
+              href="https://github.com/abdrahmanmahamanlaouan46-spec/ai-contact-extractor"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -98,24 +103,32 @@ export function Hero() {
           </Button>
         </motion.div>
 
-        {/* Feature pills */}
+        {/* Feature cards with colored icons */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground sm:text-sm"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+          className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4"
         >
-          {["Email Extraction", "Phone Parsing", "International Formats", "Instant Copy", "Export JSON"].map(
-            (feature, i) => (
-              <span
-                key={feature}
-                className="rounded-full border border-border/50 bg-background/50 px-3 py-1 backdrop-blur-sm transition-colors hover:border-emerald-500/30 hover:text-emerald-400"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                {feature}
+          {[
+            { icon: Mail, label: "Email Extraction", color: "text-emerald-400", bg: "from-emerald-500/15 to-emerald-500/5", border: "hover:border-emerald-500/40" },
+            { icon: Phone, label: "Phone Parsing", color: "text-cyan-400", bg: "from-cyan-500/15 to-cyan-500/5", border: "hover:border-cyan-500/40" },
+            { icon: Globe, label: "African Formats", color: "text-violet-400", bg: "from-violet-500/15 to-violet-500/5", border: "hover:border-violet-500/40" },
+            { icon: Zap, label: "Instant Copy", color: "text-amber-400", bg: "from-amber-500/15 to-amber-500/5", border: "hover:border-amber-500/40" },
+          ].map((feature, i) => (
+            <motion.div
+              key={feature.label}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.8 + i * 0.1 }}
+              className={`group flex flex-col items-center gap-2 rounded-xl border border-border/30 bg-gradient-to-b ${feature.bg} p-4 backdrop-blur-sm transition-all ${feature.border} hover:bg-opacity-200`}
+            >
+              <feature.icon className={`h-5 w-5 ${feature.color} transition-transform group-hover:scale-110`} />
+              <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors sm:text-sm">
+                {feature.label}
               </span>
-            )
-          )}
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
