@@ -126,3 +126,27 @@ Stage Summary:
 - All 54 African country codes (+20 through +269) with lenient validation
 - Local 0-prefix format: 077 123 45 67, 06 12 34 56 78
 - Visual extension badges in results UI with amber styling
+
+---
+Task ID: 7
+Agent: Main Agent
+Task: Fix missing phone numbers in results list — deduplication bug
+
+Work Log:
+- User reported "not all numbers show up in the list"
+- Diagnosed the root cause: normalizeForDedup() was stripping extensions before comparison
+- This caused "+221 77 123 45 67 ext 45" to be treated as duplicate of "+221 77 123 45 67"
+- Fixed normalizeForDedup() to include extension in the dedup key
+- Now numbers with different extensions are treated as SEPARATE contacts
+- True duplicates (same base, same/no extension) are still correctly removed
+- Increased ScrollArea max height from 256px/320px to 384px/500px for better visibility
+- Reduced animation delay: Math.min(index * 0.02, 0.5) instead of index * 0.03
+- Verified: +221 77 123 45 67 + ext 45 + x123 = 3 separate entries (correct)
+- Verified: +221 77 123 45 67 appearing twice in text = 1 entry (correct dedup)
+
+Stage Summary:
+- Deduplication now preserves extensions as distinct contacts
+- Same base with different ext = different entries in the list
+- Same base without ext = correctly deduplicated
+- ScrollArea height increased for better visibility of long result lists
+- Animation delay capped at 0.5s for large lists

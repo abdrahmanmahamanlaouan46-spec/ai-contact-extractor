@@ -343,18 +343,25 @@ function isValidEmail(email: string): boolean {
 // ─── DEDUPLICATION ───────────────────────────────────────────────────
 
 /**
- * Normalizes a phone number to its digit-only form for dedup comparison.
- * Strips all non-digit characters except +, and ignores extension for comparison.
+ * Normalizes a phone number for dedup comparison.
  *
- * Two numbers are considered duplicates if their base digits are the same,
- * regardless of formatting or extension differences.
+ * Two numbers are considered duplicates ONLY if:
+ *   - They have the SAME base digits AND the same extension (or both no extension)
+ *
+ * This means "+221 77 123 45 67" and "+221 77 123 45 67 ext 45" are
+ * treated as DIFFERENT contacts (the extension routes to a different desk).
+ *
+ * But "+221 77 123 45 67" and "+221 7712 345 67" are the SAME contact
+ * (just different formatting).
  *
  * @param phone - The phone number string
  * @returns Normalized string for comparison
  */
 function normalizeForDedup(phone: string): string {
-  const { base } = parseExtension(phone);
-  return base.replace(/[^\d+]/g, "");
+  const { base, ext } = parseExtension(phone);
+  const baseNorm = base.replace(/[^\d+]/g, "");
+  // Include extension in dedup key so ext and non-ext are treated as different
+  return ext ? `${baseNorm}ext${ext}` : baseNorm;
 }
 
 // ─── EXTRACTION FUNCTIONS ────────────────────────────────────────────

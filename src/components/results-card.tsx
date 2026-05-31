@@ -188,7 +188,7 @@ function ContactResultCard({
       {/* Card content */}
       <div className="p-4 sm:p-5">
         {items.length > 0 ? (
-          <ScrollArea className="max-h-64 sm:max-h-80">
+          <ScrollArea className="max-h-96 sm:max-h-[500px]">
             <div className="space-y-1.5 pr-3">
               <AnimatePresence mode="popLayout">
                 {items.map((item, index) => {
@@ -199,7 +199,7 @@ function ContactResultCard({
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 10 }}
-                      transition={{ duration: 0.2, delay: index * 0.03 }}
+                      transition={{ duration: 0.15, delay: Math.min(index * 0.02, 0.5) }}
                       className={`group flex items-center justify-between rounded-lg border border-border/30 px-3 py-2 text-sm transition-colors ${hoverBorder} hover:bg-muted/50`}
                     >
                       <div className="flex items-center gap-2.5 overflow-hidden">
