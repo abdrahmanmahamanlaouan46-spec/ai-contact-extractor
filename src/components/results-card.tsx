@@ -52,7 +52,7 @@ function CopyButton({
   label,
   disabled,
 }: {
-  onClick: () => void;
+  onClick: () => Promise<{ success: boolean; label: string } | undefined> | void;
   label: string;
   disabled?: boolean;
 }) {
